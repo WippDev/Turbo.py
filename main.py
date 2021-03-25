@@ -4,7 +4,7 @@ import sqlite3
 import os
 import requests
 from discord.ext.commands import BucketType
-#from webserver import keep_alive
+from webserver import keep_alive
 from asyncio import sleep
 import random
 import asyncio
@@ -36,6 +36,7 @@ async def help(ctx):
     em.add_field(name = "!bio_set" , value = "```example !bio Hello , I am a 21 years old designer ```" , inline = False)
     em.add_field(name = "!timezone_set" , value = "```example : timezone_set GTM+1```" , inline = False)
     em.add_field(name = "!portofolio_set" , value = "```example : portofolio_set link to portofolio```" , inline = False)
+    em.add_field(name = "!commit" , value = "```example : commit {screen shot proof of the money sent} 10${you add here your budget for the commission}```" , inline = False)
     await ctx.send(embed = em)
 
 
@@ -139,7 +140,7 @@ async def disable(ctx, extention):
 
 
 
-#keep_alive()  # Starts a webserver to be pinged.
+keep_alive()  # Starts a webserver to be pinged.
 token = os.environ.get("DISCORD_BOT_SECRET")
 client.run(token)
 
