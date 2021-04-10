@@ -14,7 +14,7 @@ import asyncio
 THEME1 = 0xd41c34
 
 
-prefix = "!"
+prefix = "*"
 client = commands.Bot(command_prefix=prefix,intents=discord.Intents.all(),case_insensitive=True)
 
 
@@ -50,7 +50,7 @@ async def status():
 		                              name=f'Official Turbo Bot'))
 		await sleep(40)
 		await client.change_presence(activity=discord.Activity(
-		    type=discord.ActivityType.watching, name=f'I keep the data track'))
+		    type=discord.ActivityType.watching, name=f'data track'))
 		await sleep(15)
 		await client.change_presence(
 		    activity=discord.Activity(type=discord.ActivityType.watching,

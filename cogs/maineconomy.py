@@ -4,6 +4,7 @@ import asyncio
 import discord
 from discord.ext import commands
 from discord.ext.commands import BucketType
+from discord.utils import get
 
 from modules import open_account, save_bank, users
 
@@ -15,6 +16,11 @@ class EconomyProflie(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+
+    
+
+
+
 
     @commands.command(aliases=["b2c4"])
     async def profile(self, ctx, member: discord.Member = None):
@@ -38,7 +44,7 @@ class EconomyProflie(commands.Cog):
             color=THEME1,
             description="For more information [click](https://www.youtube.com/watch?v=pbWFaDutdxA) here ",
         )
-        em.add_field(name="About :", value=f"{bio}", inline=False)
+        em.add_field(name="Bio :", value=f"{bio}", inline=False)
         em.add_field(name="Portfolio :", value=f"{portofolio}", inline=False)
         em.add_field(name="Timezone: ", value=f"{timez}")
         em.add_field(name="Earnings:", value=f"{bank_amt}$  ")
@@ -46,6 +52,34 @@ class EconomyProflie(commands.Cog):
         em.set_footer(text="2021 Turbo Copyright®")
         em.set_thumbnail(url=str(pfp))
         await ctx.send(embed=em)
+
+
+
+    @commands.group(invoke_without_command = True)
+    @commands.cooldown(1, 3, BucketType.user)
+    async def role(self , ctx):
+        em = discord.Embed(color = THEME1 , description = "This are roles that you can get")
+        em.add_field(name = "Role commands" , value = "**bot developer**\n**freelancer**\n**I am jack**")
+        await ctx.send(embed = em)
+
+    @role.command(pass_context=True) # This must be exactly the name of the appropriate role
+    async def freelancer(self, ctx):
+        member = ctx.author
+        var = discord.utils.get(ctx.guild.roles, name = "freelancer(test-bot)")
+        await member.add_roles(var)
+
+
+
+
+
+    @commands.group(invoke_without_command = True)
+    @commands.cooldown(1, 3, BucketType.user)
+    async def edit(self , ctx):
+        em = discord.Embed(color = THEME1 , description = "This are the commands that help you edit your profile")
+        em.add_field(name = "Edit commands" , value = "**edit bio**\n**edit portofolio**\n**edit timezone**")
+        await ctx.send(embed = em)
+
+
 
     @commands.command(name="commit")
     # @commands.cooldown(1, 2, BucketType.user)
@@ -166,8 +200,8 @@ class EconomyProflie(commands.Cog):
             else:
                 await ctx.send("something is broke")
 
-    @commands.command()
-    async def bio_set(self, ctx, *, bio: str):
+    @edit.command()
+    async def bio(self, ctx, *, bio: str):
         member = ctx.author
         await open_account(member)
 
@@ -175,8 +209,8 @@ class EconomyProflie(commands.Cog):
         await ctx.send(f"Bio sat us ```{bio}```")
         await save_bank()
 
-    @commands.command()
-    async def timezone_set(self, ctx, *, bio: str):
+    @edit.command()
+    async def timezone(self, ctx, *, bio: str):
         member = ctx.author
         await open_account(member)
 
@@ -184,17 +218,17 @@ class EconomyProflie(commands.Cog):
         await ctx.send(f"Timezone set to ```{bio}```")
         await save_bank()
 
-    @commands.command()
-    async def portofolio_set(self, ctx, *, bio: str):
+    @edit.command()
+    async def portfolio(self, ctx, *, bio: str):
         member = ctx.author
         await open_account(member)
-
+        
         users[str(member.id)]["portofolio"] = bio
         await ctx.send(f"portofolio set to ```{bio}```")
         await save_bank()
 
     @commands.command()
-    async def bio(self, ctx, member: discord.Member = None):
+    async def description(self, ctx, member: discord.Member = None):
         if not member:
             member = ctx.message.author
 
